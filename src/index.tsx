@@ -9,12 +9,12 @@ function isFunctionChildren<T = any>(x: ChildrenOrFunction<T>): x is FunctionChi
 }
 
 export interface ManagePromiseProps<T = any> {
-  children: ChildrenOrFunction<PromiseStatus<T>>
+  children?: ChildrenOrFunction<PromiseStatus<T>>
   promise: Promise<T>
 }
 
 export interface Props<T = any> {
-  children: ChildrenOrFunction<T>
+  children?: ChildrenOrFunction<T>
 }
 
 export type ResolvedResult<T> = {
