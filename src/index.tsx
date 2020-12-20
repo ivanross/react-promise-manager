@@ -39,7 +39,7 @@ export function usePromise<T>(promise: Promise<T>) {
   React.useEffect(() => {
     let shouldUpdate = true
 
-    // shoud I reset state to pending when new promise is passed?
+    // should I reset state to pending when new promise is passed?
     // setState({ state: "pending" }) + [promise] as a dependency
 
     promise
