@@ -13,6 +13,7 @@
   "scripts": {
     "start": "tsdx watch",
     "build": "tsdx build",
+    "pretest": "jest --clearCache",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
     "prepare": "tsdx build",

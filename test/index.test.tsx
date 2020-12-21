@@ -1,10 +1,10 @@
 import * as React from 'react'
 import * as Utils from './utils'
 import { act, create } from 'react-test-renderer'
-import { ManagedPromise, Resolved, Rejected, Pending } from '../src'
+import { ManagedPromise, Resolved, Rejected, Pending, usePromise } from '../src'
 
 describe(ManagedPromise, () => {
-  it('renders Pending child, then Resolved child', async () => {
+  it('should render Pending child, then Resolved child', async () => {
     const renderPending = jest.fn()
     const renderResolved = jest.fn()
     const renderRejected = jest.fn()
@@ -12,11 +12,11 @@ describe(ManagedPromise, () => {
     const ComponentResolved = () => (renderResolved(), (<div />))
     const ComponentRejected = () => (renderRejected(), (<div />))
 
-    const mockPromise = Utils.controlPromise(2000)
+    const { promise, resolve } = Utils.controllablePromise()
 
-    await act(async () => {
+    act(() => {
       create(
-        <ManagedPromise promise={mockPromise.promise}>
+        <ManagedPromise promise={promise}>
           <Pending>
             <ComponentPending />
           </Pending>
@@ -28,8 +28,6 @@ describe(ManagedPromise, () => {
           </Rejected>
         </ManagedPromise>
       )
-
-      await Utils.tick()
     })
 
     expect(renderPending.mock.calls.length).toBe(1)
@@ -39,7 +37,7 @@ describe(ManagedPromise, () => {
     Utils.mockClear(renderPending, renderResolved, renderRejected)
 
     await act(async () => {
-      mockPromise.resolve()
+      resolve()
       await Utils.tick()
     })
 
@@ -48,7 +46,7 @@ describe(ManagedPromise, () => {
     expect(renderRejected.mock.calls.length).toBe(0)
   })
 
-  it('renders Pending child, then Rejected child', async () => {
+  it('should render Pending child, then Rejected child', async () => {
     const renderPending = jest.fn()
     const renderResolved = jest.fn()
     const renderRejected = jest.fn()
@@ -56,11 +54,11 @@ describe(ManagedPromise, () => {
     const ComponentResolved = () => (renderResolved(), (<div />))
     const ComponentRejected = () => (renderRejected(), (<div />))
 
-    const mockPromise = Utils.controlPromise(2000)
+    const { promise, reject } = Utils.controllablePromise()
 
-    await act(async () => {
+    act(() => {
       create(
-        <ManagedPromise promise={mockPromise.promise}>
+        <ManagedPromise promise={promise}>
           <Pending>
             <ComponentPending />
           </Pending>
@@ -72,7 +70,6 @@ describe(ManagedPromise, () => {
           </Rejected>
         </ManagedPromise>
       )
-      await Utils.tick()
     })
 
     expect(renderPending.mock.calls.length).toBe(1)
@@ -82,12 +79,98 @@ describe(ManagedPromise, () => {
     Utils.mockClear(renderPending, renderResolved, renderRejected)
 
     await act(async () => {
-      mockPromise.reject()
+      reject()
       await Utils.tick()
     })
 
     expect(renderPending.mock.calls.length).toBe(0)
     expect(renderResolved.mock.calls.length).toBe(0)
     expect(renderRejected.mock.calls.length).toBe(1)
+  })
+})
+
+describe(usePromise, () => {
+  it('should update when promise is resolved', async () => {
+    let promiseState = {}
+    const { promise, resolve } = Utils.controllablePromise()
+
+    const Component = () => {
+      promiseState = usePromise(promise, [])
+      return null
+    }
+
+    act(() => void create(<Component />))
+
+    expect(promiseState).toEqual({ state: 'pending' })
+
+    await act(async () => {
+      resolve('resolved value')
+      await Utils.tick()
+    })
+
+    expect(promiseState).toEqual({ state: 'resolved', result: 'resolved value' })
+  })
+
+  it('should update when promise is rejected', async () => {
+    let promiseState = {}
+    const { promise, reject } = Utils.controllablePromise()
+
+    const Component = () => {
+      promiseState = usePromise(promise, [])
+      return null
+    }
+
+    act(() => void create(<Component />))
+
+    expect(promiseState).toEqual({ state: 'pending' })
+
+    await act(async () => {
+      reject('rejected value')
+      await Utils.tick()
+    })
+
+    expect(promiseState).toEqual({ state: 'rejected', error: 'rejected value' })
+  })
+
+  it('should update when function promise is resolved', async () => {
+    let promiseState = {}
+    const { promise, resolve } = Utils.controllablePromise()
+
+    const Component = () => {
+      promiseState = usePromise(() => promise, [])
+      return null
+    }
+
+    act(() => void create(<Component />))
+
+    expect(promiseState).toEqual({ state: 'pending' })
+
+    await act(async () => {
+      resolve('resolved value')
+      await Utils.tick()
+    })
+
+    expect(promiseState).toEqual({ state: 'resolved', result: 'resolved value' })
+  })
+
+  it('should update when function promise is rejected', async () => {
+    let promiseState = {}
+    const { promise, reject } = Utils.controllablePromise()
+
+    const Component = () => {
+      promiseState = usePromise(() => promise, [])
+      return null
+    }
+
+    act(() => void create(<Component />))
+
+    expect(promiseState).toEqual({ state: 'pending' })
+
+    await act(async () => {
+      reject('rejected value')
+      await Utils.tick()
+    })
+
+    expect(promiseState).toEqual({ state: 'rejected', error: 'rejected value' })
   })
 })

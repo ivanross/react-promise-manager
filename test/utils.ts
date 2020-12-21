@@ -1,6 +1,6 @@
 export const sleep = (ms: number) => new Promise(res => setTimeout(res, ms))
 export const tick = () => sleep(0)
-export const controlPromise = (autoResolveAfter: number) => {
+export const controllablePromise = (autoResolveAfter: number = 5000) => {
   let resolve: any
   let reject: any
   const promise = new Promise((_resolve, _reject) => {

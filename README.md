@@ -20,13 +20,13 @@ npm install react react-promise-manager
 
 ## `usePromise`
 
-Accepts a promise and returns PromiseState.
+Accepts `Promise<T> | () => Promise<T>` and an array of dependency. Returns PromiseState.
 
 ```jsx
 import { usePromise } from 'react-promise-manager'
 
 const App = () => {
-  const promiseState = usePromise(fetchMyData)
+  const promiseState = usePromise(fetchMyData, [])
 
   if (promiseState.state === 'pending') return 'loading... ⏱'
   if (promiseState.state === 'rejected') {
