@@ -45,7 +45,7 @@ const App = () => {
 
 ## `ManagedPromise`
 
-Pass a promise to `ManagedPromise` and with `Resolved`, `Rejected` and `Pending` you can choose what to render accordingly to the promise state.
+Pass a `Promise<T> | () => Promise<T>` to `ManagedPromise` and with `Resolved`, `Rejected` and `Pending` you can choose what to render accordingly to the promise state.
 
 ```jsx
 import { ManagedPromise, Pending, Rejected, Resolved } from 'react-promise-manager'

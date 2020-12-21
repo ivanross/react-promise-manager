@@ -10,7 +10,7 @@ function isFunctionChildren<T = any>(x: ChildrenOrFunction<T>): x is FunctionChi
 
 export interface ManagedPromiseProps<Result, Error> {
   children?: ChildrenOrFunction<PromiseState<Result, Error>>
-  promise: Promise<Result>
+  promise: Promise<Result> | (() => Promise<Result>)
 }
 
 export interface Props<T> {
