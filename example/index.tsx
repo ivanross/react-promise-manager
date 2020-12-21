@@ -8,23 +8,19 @@ import {
   Rejected,
   usePromiseResult,
   usePromiseError,
-  usePromiseStatus,
+  usePromiseState,
 } from '../.'
 
-const wait = async (ms: number) =>
-  new Promise((resolve, reject) => {
-    setTimeout(resolve, ms)
-  })
+const wait = async (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
-const mockSuccessfulFetch = () => wait(3000).then(() => ({ data: [] }))
+const mockSuccessfulFetch = () => wait(3000).then(() => ({ data: [{ id: 1 }, { id: 2 }] }))
 const mockFailingFetch = () => wait(2000).then(() => JSON.parse('[['))
 
 const App = () => {
+  const p = mockSuccessfulFetch()
   return (
     <div>
-      <ManagePromise promise={mockSuccessfulFetch()}>
-        {state => <pre>{JSON.stringify(state)}</pre>}
-      </ManagePromise>
+      <ManagePromise promise={p}>{state => <pre>{JSON.stringify(state)}</pre>}</ManagePromise>
 
       <ManagePromise promise={mockFailingFetch()}>
         <Pending>
@@ -78,6 +74,6 @@ const SecondResolved = () => {
 }
 
 const PromiseLogger = () => {
-  return <pre>PROMISE LOGGER: {JSON.stringify(usePromiseStatus())}</pre>
+  return <pre>PROMISE LOGGER: {JSON.stringify(usePromiseState())}</pre>
 }
 ReactDOM.render(<App />, document.getElementById('root'))
