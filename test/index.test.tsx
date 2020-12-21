@@ -1,9 +1,9 @@
 import * as React from 'react'
 import * as Utils from './utils'
 import { act, create } from 'react-test-renderer'
-import { ManagePromise, Resolved, Rejected, Pending } from '../src'
+import { ManagedPromise, Resolved, Rejected, Pending } from '../src'
 
-describe(ManagePromise, () => {
+describe(ManagedPromise, () => {
   it('renders Pending child, then Resolved child', async () => {
     const renderPending = jest.fn()
     const renderResolved = jest.fn()
@@ -16,7 +16,7 @@ describe(ManagePromise, () => {
 
     act(() => {
       create(
-        <ManagePromise promise={mockPromise.promise}>
+        <ManagedPromise promise={mockPromise.promise}>
           <Pending>
             <ComponentPending />
           </Pending>
@@ -26,7 +26,7 @@ describe(ManagePromise, () => {
           <Rejected>
             <ComponentRejected />
           </Rejected>
-        </ManagePromise>
+        </ManagedPromise>
       )
     })
 
@@ -59,7 +59,7 @@ describe(ManagePromise, () => {
 
     act(() => {
       create(
-        <ManagePromise promise={mockPromise.promise}>
+        <ManagedPromise promise={mockPromise.promise}>
           <Pending>
             <ComponentPending />
           </Pending>
@@ -69,7 +69,7 @@ describe(ManagePromise, () => {
           <Rejected>
             <ComponentRejected />
           </Rejected>
-        </ManagePromise>
+        </ManagedPromise>
       )
     })
 
