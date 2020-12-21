@@ -2,7 +2,7 @@ import 'react-app-polyfill/ie11'
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import {
-  ManagePromise,
+  ManagedPromise,
   Resolved,
   Pending,
   Rejected,
@@ -20,9 +20,9 @@ const App = () => {
   const p = mockSuccessfulFetch()
   return (
     <div>
-      <ManagePromise promise={p}>{state => <pre>{JSON.stringify(state)}</pre>}</ManagePromise>
+      <ManagedPromise promise={p}>{state => <pre>{JSON.stringify(state)}</pre>}</ManagedPromise>
 
-      <ManagePromise promise={mockFailingFetch()}>
+      <ManagedPromise promise={mockFailingFetch()}>
         <Pending>
           <pre> --- First pending --- </pre>
         </Pending>
@@ -43,7 +43,7 @@ const App = () => {
 
         <PromiseLogger />
         {/* Nested handler */}
-        <ManagePromise promise={mockSuccessfulFetch()}>
+        <ManagedPromise promise={mockSuccessfulFetch()}>
           <PromiseLogger />
           <Pending>
             <pre> --- Second pending --- </pre>
@@ -57,8 +57,8 @@ const App = () => {
           <Rejected>
             <pre> !!! Second rejected !!!</pre>
           </Rejected>
-        </ManagePromise>
-      </ManagePromise>
+        </ManagedPromise>
+      </ManagedPromise>
     </div>
   )
 }

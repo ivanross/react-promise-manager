@@ -6,7 +6,7 @@ Yet another Promise utility library for React.
 
 - [Getting Started](#getting-started)
 - [`usePromise`](#usepromise)
-- [`ManagePromise`](#managepromise)
+- [`ManagedPromise`](#managedpromise)
   - [Accessing PromiseState via function](#accessing-promisestate-via-function)
   - [Accessing PromiseState via hook](#accessing-promisestate-via-hook)
 
@@ -43,21 +43,21 @@ const App = () => {
 }
 ```
 
-## `ManagePromise`
+## `ManagedPromise`
 
-Pass a promise to `ManagePromise` and with `Resolved`, `Rejected` and `Pending` you can choose what to render accordingly to the promise state.
+Pass a promise to `ManagedPromise` and with `Resolved`, `Rejected` and `Pending` you can choose what to render accordingly to the promise state.
 
 ```jsx
-import { ManagePromise, Pending, Rejected, Resolved } from 'react-promise-manager'
+import { ManagedPromise, Pending, Rejected, Resolved } from 'react-promise-manager'
 
 const App = () => (
-  <ManagePromise promise={fetchMyData}>
+  <ManagedPromise promise={fetchMyData}>
     <Pending>loading... ⏱</Pending>
     <Rejected>Oops, something went wrong 😞</Rejected>
     <Resolved>
       <MyComponent />
     </Resolved>
-  </ManagePromise>
+  </ManagedPromise>
 )
 ```
 
@@ -67,20 +67,20 @@ To access the result or the error returned by the promise, a function can be pas
 
 ```jsx
 const App = () => (
-  <ManagePromise promise={myPromise}>
+  <ManagedPromise promise={myPromise}>
     <Resolved>{result => <MyComponent result={result} />}</Resolved>
     <Rejected>{error => <MyErrorHandler error={error} />}</Rejected>
-  </ManagePromise>
+  </ManagedPromise>
 )
 ```
 
-The same thing can be done with `ManagePromise` to access PromiseState:
+The same thing can be done with `ManagedPromise` to access PromiseState:
 
 ```jsx
 const App = () => (
-  <ManagePromise promise={myPromise}>
+  <ManagedPromise promise={myPromise}>
     {promiseState => ... }
-  </ManagePromise>
+  </ManagedPromise>
 )
 ```
 
@@ -100,14 +100,14 @@ const MyErrorHandler = () => {
 }
 
 const App = () => (
-  <ManagePromise promise={myPromise}>
+  <ManagedPromise promise={myPromise}>
     <Resolved>
       <MyComponent />
     </Resolved>
     <Rejected>
       <MyErrorHandler />
     </Rejected>
-  </ManagePromise>
+  </ManagedPromise>
 )
 ```
 
@@ -120,12 +120,12 @@ const MyComponent = () => {
 }
 
 const App = () => (
-  <ManagePromise promise={myPromise}>
+  <ManagedPromise promise={myPromise}>
     <MyComponent />
-  </ManagePromise>
+  </ManagedPromise>
 )
 ```
 
-- `usePromiseState` can be used only in a `ManagePromise` child
+- `usePromiseState` can be used only in a `ManagedPromise` child
 - `usePromiseResult` can be used only in a `Resolved` child
 - `usePromiseError` can be used only in a `Rejected` child

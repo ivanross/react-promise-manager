@@ -8,7 +8,7 @@ function isFunctionChildren<T = any>(x: ChildrenOrFunction<T>): x is FunctionChi
   return typeof x === 'function'
 }
 
-export interface ManagePromiseProps<T = any> {
+export interface ManagedPromiseProps<T = any> {
   children?: ChildrenOrFunction<PromiseState<T>>
   promise: Promise<T>
 }
@@ -77,7 +77,7 @@ export function usePromiseError() {
   return result.error
 }
 
-export function ManagePromise<T = any>(props: ManagePromiseProps<T>) {
+export function ManagedPromise<T = any>(props: ManagedPromiseProps<T>) {
   const { promise, children } = props
   const result = usePromise<T>(promise)
   return (
