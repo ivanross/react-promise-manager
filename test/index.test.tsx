@@ -14,7 +14,7 @@ describe(ManagedPromise, () => {
 
     const mockPromise = Utils.controlPromise(2000)
 
-    act(() => {
+    await act(async () => {
       create(
         <ManagedPromise promise={mockPromise.promise}>
           <Pending>
@@ -28,19 +28,20 @@ describe(ManagedPromise, () => {
           </Rejected>
         </ManagedPromise>
       )
+
+      await Utils.tick()
     })
 
-    await Utils.tick()
     expect(renderPending.mock.calls.length).toBe(1)
     expect(renderResolved.mock.calls.length).toBe(0)
     expect(renderRejected.mock.calls.length).toBe(0)
 
     Utils.mockClear(renderPending, renderResolved, renderRejected)
 
-    act(() => {
+    await act(async () => {
       mockPromise.resolve()
+      await Utils.tick()
     })
-    await Utils.tick()
 
     expect(renderPending.mock.calls.length).toBe(0)
     expect(renderResolved.mock.calls.length).toBe(1)
@@ -57,7 +58,7 @@ describe(ManagedPromise, () => {
 
     const mockPromise = Utils.controlPromise(2000)
 
-    act(() => {
+    await act(async () => {
       create(
         <ManagedPromise promise={mockPromise.promise}>
           <Pending>
@@ -71,19 +72,19 @@ describe(ManagedPromise, () => {
           </Rejected>
         </ManagedPromise>
       )
+      await Utils.tick()
     })
 
-    await Utils.tick()
     expect(renderPending.mock.calls.length).toBe(1)
     expect(renderResolved.mock.calls.length).toBe(0)
     expect(renderRejected.mock.calls.length).toBe(0)
 
     Utils.mockClear(renderPending, renderResolved, renderRejected)
 
-    act(() => {
+    await act(async () => {
       mockPromise.reject()
+      await Utils.tick()
     })
-    await Utils.tick()
 
     expect(renderPending.mock.calls.length).toBe(0)
     expect(renderResolved.mock.calls.length).toBe(0)
