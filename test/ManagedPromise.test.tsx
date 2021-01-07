@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as Utils from './utils'
 import { act, create } from 'react-test-renderer'
-import { ManagedPromise, Resolved, Rejected, Pending, usePromise } from '../src'
+import { ManagedPromise, Resolved, Rejected, Pending } from '../src'
 
 describe(ManagedPromise, () => {
   it('should render Pending child, then Resolved child', async () => {
