@@ -1,5 +1,5 @@
 import * as React from 'react'
-const pkgName = require('../package.json').name
+const pkgName = 'react-promise-manager'
 
 type FunctionChildren<T> = (result: T) => React.ReactNode
 type ChildrenOrFunction<T> = React.ReactNode | FunctionChildren<T>
