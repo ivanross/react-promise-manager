@@ -1,4 +1,48 @@
-* {
+:root {
+  --animation: 0.3s;
+}
+
+body {
   background-color: #222;
   color: #ddd;
+}
+
+.transition-opacity {
+  transition: opacity 0.33s ease;
+}
+
+.transition {
+  transition: all var(--animation);
+}
+
+.fade-in {
+  animation: fade-in var(--animation);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to: {
+    opacity: 0;
+  }
+}
+
+@keyframes grow {
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(2);
+  }
 }
